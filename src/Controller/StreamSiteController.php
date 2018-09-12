@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Film;
+use App\Repository\FilmRepository;
 
 class StreamSiteController extends AbstractController
 {
@@ -26,18 +28,22 @@ class StreamSiteController extends AbstractController
     }
     
     /**
-     * @Route("/stream/site/film", name="film")
+     * @Route("/stream/site/film", name="list_film")
      */
     public function film()
     {
-        return $this->render('stream_site/film.html.twig', ['title' => 'Film']);
+        $repo = $this->getDoctrine()->getRepository(Film::class);
+        $film = $repo->findAll();
+        return $this->render('stream_site/film.html.twig', ['title' => 'Liste Films', 'film' => $film, 'var' => false, ]);
     }
     
-//    /**
-//     * @Route("/stream/site/film/{id}", name="film")
-//     */
-//    public function film(Film $film, $id)
-//    {
-//        
-//    }
+    /**
+     * @Route("/stream/site/film/{id}", name="film")
+     */
+    public function filma($id)
+    {
+        $repo = $this->getDoctrine()->getRepository(Film::class);
+        $film = $repo->find($id);
+        return $this->render('stream_site/film.html.twig', ['title' => 'Le film', 'var' => true, 'film' => $film]);
+    }
 }

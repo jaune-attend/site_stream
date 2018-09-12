@@ -27,20 +27,16 @@ class Film
     private $contenu;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="user")
-     */
-    private $category;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="film", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="films")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comments", inversedBy="film")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $comments;
+    private $category;
 
     public function getId(): ?int
     {
@@ -71,18 +67,6 @@ class Film
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -95,14 +79,14 @@ class Film
         return $this;
     }
 
-    public function getComments(): ?Comments
+    public function getCategory(): ?Category
     {
-        return $this->comments;
+        return $this->category;
     }
 
-    public function setComments(?Comments $comments): self
+    public function setCategory(?Category $category): self
     {
-        $this->comments = $comments;
+        $this->category = $category;
 
         return $this;
     }

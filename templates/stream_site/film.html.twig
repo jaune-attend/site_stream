@@ -2,5 +2,16 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body%}
-    hey that's a movie
+    {% if var == true %}
+            hey that's a accurate movie
+    {% else %}
+            <div class="container">
+                {% for a in film %}
+                   <div class="film">
+                        <h1>{{ a.titre }}</h1>
+                        <img alt="image" src="{{ a.contenu }}"/>
+                    </div>
+                {% endfor %}
+            </div>
+    {% endif %}
 {% endblock %}

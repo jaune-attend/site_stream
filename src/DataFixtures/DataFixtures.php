@@ -5,8 +5,9 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\User;
-use App\Entiry\Comments;
+use App\Entity\Comments;
 use App\Entity\Film;
+use App\Entity\Category;
 
 class DataFixtures extends Fixture
 {
@@ -24,7 +25,31 @@ class DataFixtures extends Fixture
                 
             $manager->persist($user);
         }
-        //$comments = new Comments();
+        
+        $category = new Category();
+        for($k = 0; $k < 10; $k++)
+        {
+            $category->setName($faker->sentence());
+            $manager->persist($category);
+        }
+        
+        $comments = new Comments();
+        for ($l = 0; $l < 10; $l++)
+        {
+            $comments->setAuteur($user)
+                ->setContenu($faker->sentence());
+            $manager->persist($comments);
+        }
+        
+        $film = new Film();
+        for ($j = 0; $j < 10; $j++)
+        {
+            $film->setTitre($faker->sentence())
+                ->setContenu($faker->imageUrl($width = 250, $height = 250))
+                ->setUser($user)
+                ->setCategory($category);
+            $manager->persist($film);
+        }
         
 
         $manager->flush();
