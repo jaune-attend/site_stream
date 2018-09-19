@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container">
+       <div class="col-xs-8">
+            {{ form_start(form) }}
+                {{ form_row(form.prenom) }}
+                {{ form_row(form.nom) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.mdp) }}
+                {{ form_row(form.confirm_mdp) }}
+                <button class="btn btn-success">Valider</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
