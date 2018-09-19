@@ -15,9 +15,10 @@ class DataFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR');
         
-        $user = new User();
+        
         for ($i = 0; $i < 10; $i++)
         {
+            $user = new User();
             $user->setPrenom($faker->name)
                 ->setNom($faker->name)
                 ->setEmail($faker->email)
@@ -26,9 +27,10 @@ class DataFixtures extends Fixture
             $manager->persist($user);
         }
         
-        $category = new Category();
+        
         for($k = 0; $k < 10; $k++)
         {
+            $category = new Category();
             $category->setName($faker->sentence());
             $manager->persist($category);
         }
@@ -41,9 +43,10 @@ class DataFixtures extends Fixture
             $manager->persist($comments);
         }
         
-        $film = new Film();
+        
         for ($j = 0; $j < 10; $j++)
         {
+            $film = new Film();
             $film->setTitre($faker->sentence())
                 ->setContenu($faker->imageUrl($width = 250, $height = 250))
                 ->setUser($user)

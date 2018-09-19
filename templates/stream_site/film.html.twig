@@ -3,13 +3,19 @@
 
 {% block body%}
     {% if var == true %}
-            hey that's a accurate movie
-    {% else %}
+            <div class="container">
+                <h3> {{ film.titre }} </h3>
+                <img src="{{ film.contenu }}" alt="image_{{ film.id }}">
+            </div>
+        {% else %}
             <div class="container">
                 {% for a in film %}
                    <div class="film">
-                        <h1>{{ a.titre }}</h1>
+                        <h4>{{ a.titre }}</h4>
                         <img alt="image" src="{{ a.contenu }}"/>
+                        <a href="{{path('film', {id : a.id} ) }}">
+                        Voir ce Film
+                       </a>
                     </div>
                 {% endfor %}
             </div>
