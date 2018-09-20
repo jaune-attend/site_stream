@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -35,9 +37,17 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8, minMessage="Vous de vez mettre  au moins 8 caractéres")
+     * @Assert\EqualTo(propertyPath="confirm_mdp", message="Ce n'est pas le même mot de passe")
      */
     private $mdp;
+    
+    /**
+     * @Assert\EqualTo(propertyPath="mdp", message="Ce n'est pas le même mot de passe")
+     */
     public $confirm_mdp;
+    
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Film", mappedBy="user", cascade={"persist", "remove"})
      */
@@ -106,52 +116,52 @@ class User
         return $this;
     }
 
-//    public function getFilm(): ?Film
-//    {
-//        return $this->film;
-//    }
-//
-//    public function setFilm(?Film $film): self
-//    {
-//        $this->film = $film;
-//
-//        // set (or unset) the owning side of the relation if necessary
-//        $newUser = $film === null ? null : $this;
-//        if ($newUser !== $film->getUser()) {
-//            $film->setUser($newUser);
-//        }
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return Collection|Film[]
-//     */
-//    public function getFilms(): Collection
-//    {
-//        return $this->films;
-//    }
-//
-//    public function addFilm(Film $film): self
-//    {
-//        if (!$this->films->contains($film)) {
-//            $this->films[] = $film;
-//            $film->setUser($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeFilm(Film $film): self
-//    {
-//        if ($this->films->contains($film)) {
-//            $this->films->removeElement($film);
-//            // set the owning side to null (unless already changed)
-//            if ($film->getUser() === $this) {
-//                $film->setUser(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    public function getFilm(): ?Film
+    {
+        return $this->film;
+    }
+
+    public function setFilm(?Film $film): self
+    {
+        $this->film = $film;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = $film === null ? null : $this;
+        if ($newUser !== $film->getUser()) {
+            $film->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Film[]
+     */
+    public function getFilms(): Collection
+    {
+        return $this->films;
+    }
+
+    public function addFilm(Film $film): self
+    {
+        if (!$this->films->contains($film)) {
+            $this->films[] = $film;
+            $film->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilm(Film $film): self
+    {
+        if ($this->films->contains($film)) {
+            $this->films->removeElement($film);
+            // set the owning side to null (unless already changed)
+            if ($film->getUser() === $this) {
+                $film->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

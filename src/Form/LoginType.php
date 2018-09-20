@@ -19,7 +19,6 @@ class LoginType extends AbstractType
             ->add('email')
             ->add('mdp', PasswordType::class)
             ->add('confirm_mdp', PasswordType::class)
-           // ->add('film', IntegerType::class)
         ;
     }
 
