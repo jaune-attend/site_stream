@@ -6,12 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+    "email",
+    message="L'email est deja utilisé")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -23,7 +28,7 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $prenom;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -39,12 +44,11 @@ class User
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min=8, minMessage="Vous de vez mettre  au moins 8 caractéres")
-     * @Assert\EqualTo(propertyPath="confirm_mdp", message="Ce n'est pas le même mot de passe")
      */
-    private $mdp;
+    private $password;
     
     /**
-     * @Assert\EqualTo(propertyPath="mdp", message="Ce n'est pas le même mot de passe")
+     * @Assert\EqualTo(propertyPath="password", message="Ce n'est pas le même mot de passe")
      */
     public $confirm_mdp;
     
@@ -68,14 +72,14 @@ class User
         return $this->id;
     }
 
-    public function getPrenom(): ?string
+    public function getUsername(): ?string
     {
-        return $this->prenom;
+        return $this->username;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setUsername(string $username): self
     {
-        $this->prenom = $prenom;
+        $this->username = $username;
 
         return $this;
     }
@@ -104,14 +108,14 @@ class User
         return $this;
     }
 
-    public function getMdp(): ?string
+    public function getPassword(): ?string
     {
-        return $this->mdp;
+        return $this->password;
     }
 
-    public function setMdp(string $mdp): self
+    public function setPassword(string $password): self
     {
-        $this->mdp = $mdp;
+        $this->password = $password;
 
         return $this;
     }
@@ -164,4 +168,16 @@ class User
 
         return $this;
     }
+    
+    public function getRoles()
+    {
+        return ['Role_USER'];
+    }
+    
+    public function getSalt()
+    {
+    }
+    
+    public function eraseCredentials()
+    {}
 }
